@@ -1,0 +1,11 @@
+{
+  "name": "reel-tsukuri",
+  "owner": { "name": "y724u" },
+  "plugins": [
+    {
+      "name": "reel-tsukuri",
+      "source": "./plugins/reel-tsukuri",
+      "description": "Instagram リールの台本づくりと動画づくりを Claude に任せるための決まりと指示書"
+    }
+  ]
+}
