@@ -36,19 +36,28 @@ mv "$D/.dl/3" "$D/Claudeへの指示書_2_動画づくり.txt" && echo "置き�
 
 ## 2. 道具を入れて確かめる
 
-「動画づくりの道具（Pillow と ffmpeg）を確かめて、無ければ入れます。初めてのときは1〜3分ほどかかります」と1行だけ伝えて、次をそのまま実行する。すでに入っていれば数秒で終わる。Homebrew・ターミナル・Mac のパスワードは使わない。
+「動画づくりの道具（Pillow と ffmpeg）を確かめて、無ければ入れます。初めてのときは1〜3分ほどかかります」と1行だけ伝えて、まず次をそのまま実行する。
 
 ```bash
-/usr/bin/python3 -m pip install --user --disable-pip-version-check -q pillow imageio-ffmpeg && \
+echo "macOS: $(sw_vers -productVersion) / 空き: $(df -g "$HOME" | awk 'NR==2{print $4}')GB / CPU: $(uname -m)"; /usr/bin/python3 --version
+```
+
+- macOS の最初の数字が 11 より小さいとき（10.15 など）は、「この Mac の macOS（版）では、動画づくりの道具が動きません。macOS を 11 以降にする必要があります。講師に相談してください」と伝えて止まる（pip の ffmpeg は macOS 11 以降でしか動かないため）
+- 空きが 5GB より少ないときは、「Mac の空き容量が足りません（いま○GB）。5GB 以上空けてから『もう一度』と送ってください」と伝えて止まる
+- 「コマンドライン・デベロッパツール」を入れるか聞く画面が出たとき（出力に xcode-select や developer tools と出たときも）は、「画面に出た『インストール』を押して、終わるまで待ってください（数分から10分ほど）。終わったら『入れ終わった』と送ってください」と伝えて止まる。「入れ終わった」と言われたら、2 をはじめからやり直す
+
+問題が無ければ、次をそのまま実行する。すでに入っていれば数秒で終わる。Homebrew・ターミナル・Mac のパスワードは使わない。
+
+```bash
+/usr/bin/python3 -m pip install --user --disable-pip-version-check -q --only-binary=:all: pillow imageio-ffmpeg && \
 /usr/bin/python3 -c "import PIL, imageio_ffmpeg, subprocess; f = imageio_ffmpeg.get_ffmpeg_exe(); subprocess.run([f, '-version'], check=True, capture_output=True); print('Pillow: ある（' + PIL.__version__ + '）'); print('ffmpeg: ある（' + f + '）')"
 ```
 
-- 「コマンドライン・デベロッパツール」を入れるか聞く画面が出たとき（出力に xcode-select や developer tools と出たときも）は、「画面に出た『インストール』を押して、終わるまで待ってください（数分から10分ほど）。終わったら『入れ終わった』と送ってください」と伝えて止まる。「入れ終わった」と言われたら、2 をはじめからやり直す
-- それ以外のエラーは「守ること」の 3 のとおりにする
+- エラーは「守ること」の 3 のとおりにする（合う部品が無いときも、組み立て（ビルド）や pip の更新は試さない）
 
 ## 3. 物件の名前を聞く
 
-置き場所・決まりのファイル3つを最新にしたこと・道具の2行を短く伝える。続けて、次のように聞いて止まる:「撮った動画（素材）がもうあれば、そのリールの物件の名前を教えてください。素材を入れるフォルダを作って開きます。まだ無ければ『まだ』と送ってください」
+置き場所・決まりのファイル3つを最新にしたこと・macOS と CPU の1行・道具の2行を短く伝える。続けて、次のように聞いて止まる:「撮った動画（素材）がもうあれば、そのリールの物件の名前を教えてください。素材を入れるフォルダを作って開きます。まだ無ければ『まだ』と送ってください」
 
 ## 4. 素材を入れるフォルダを作る
 

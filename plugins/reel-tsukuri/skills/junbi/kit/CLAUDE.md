@@ -42,4 +42,8 @@ mv "$D/.dl/3" "$D/Claudeへの指示書_2_動画づくり.txt" && echo "最新�
 - 見本として Instagram などのリールの URL を渡されたときは、ログインしないと中身が見えず読めないことが多いので、「そのリールのテロップが映っている所のスクリーンショットを1枚、リール作りのフォルダ（CLAUDE.md と同じ場所）に入れてください」と頼む
 - 3つを確かめるために、このフォルダの中のフォルダの名前を見ること・台本.txt を読むこと・見本の画像を開くことはしてよい
 - 道具: Python は /usr/bin/python3 を使う（Pillow はここに入れてある）。ffmpeg は `/usr/bin/python3 -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"` で出る場所のものを、いつも使う（`ffmpeg` コマンドや ffprobe があっても使わない。Mac によって版がちがうと、結果が変わるため）。この ffmpeg には ffprobe が付いていないので、動画の長さ・向き・大きさは「その ffmpeg -i ファイル」の表示から読む（出力先を付けないので終了コードは1になるが、表示が読めればエラーではない）。どちらかが無ければ、聞かずに `/usr/bin/python3 -m pip install --user --disable-pip-version-check -q pillow imageio-ffmpeg` で入れる。Homebrew・ターミナル・sudo・Mac のパスワードを使うやり方はしない
+- 素材を見るときは、1本につき2〜4枚の縮小した静止画（横 360px ほど）で見る。全部のフレームを画像にしない。素材の処理は1本ずつ行い、同時にいくつも動かさない
+- テロップの画像は Pillow で作る（Chrome などのブラウザは使わない）。縦書きは、1文字ずつ上から並べて作る（Pillow の direction="ttb" は使えないことがあるので使わない）。「ー」「〜」は縦向きに回し、「、」「。」は字の右上に寄せ、かっこ・かぎかっこは縦書きの向きにする
+- 書体は /System/Library/Fonts/ の「ヒラギノ明朝 ProN.ttc」を使う。太字（W6）は index=2。見本に合わせてゴシックにするときは、同じ場所の「ヒラギノ角ゴシック W（太さの数字）.ttc」を使う
+- 書き出しは H.264（libx264）・yuv420p・30fps・-preset veryfast・-crf 20 にする。H.265（HEVC）では書き出さない
 - 素材や資料を探しに、このフォルダの外を見に行かない（フォントやソフトなど、作業に要るものは使ってよい）
