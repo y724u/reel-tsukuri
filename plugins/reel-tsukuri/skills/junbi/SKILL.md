@@ -1,11 +1,11 @@
 ---
 name: junbi
-description: Instagram リールを作る作業フォルダ「リール作り」を用意し、動画づくりに要る道具（ffmpeg と Pillow）がそろっているかを確かめる。中の決まりのファイルを最新にするときにも使う。「リール作りの準備をして」「リール作りを最新にして」と頼まれたときに使う
+description: Instagram リールを作る作業フォルダ「リール作り」を用意し、動画づくりに要る道具（ffmpeg と Pillow）がそろっているかを確かめて、足りなければ入れる。中の決まりのファイルを最新にするときにも使う。「リール作りの準備をして」「リール作りを最新にして」と頼まれたときに使う
 ---
 
 # リール作りの準備
 
-作業フォルダ「リール作り」に決まりのファイル3つを置き（すでにあれば最新に入れ替える）、動画づくりの道具がそろっているかを確かめる。
+作業フォルダ「リール作り」に決まりのファイル3つを置き（すでにあれば最新に入れ替える）、動画づくりの道具がそろっているかを確かめる。道具は Homebrew もターミナルも Mac のパスワードも使わずに入れる。
 
 ## 1. 決まりのファイルを置く
 
@@ -18,32 +18,25 @@ description: Instagram リールを作る作業フォルダ「リール作り」
 
 ## 2. 道具を確かめる
 
-- ffmpeg: `ffmpeg -version` が動くか。見つからなければ /opt/homebrew/bin/ffmpeg と /usr/local/bin/ffmpeg も見る
-- Pillow: `python3 -c "import PIL; print(PIL.__version__)"` が動くか。/usr/bin/python3 と /opt/homebrew/bin/python3 の両方で見る
-- Homebrew: `brew --version` が動くか。見つからなければ /opt/homebrew/bin/brew と /usr/local/bin/brew も見る
-- Pillow は、どれか1つの python3 で import できれば「ある」とし、どの python3 で動いたか（例: /usr/bin/python3）も添える
+- ffmpeg: 次のどれか1つで `-version` が動けば「ある」とし、どれで動いたか（場所）も添える
+  1. `ffmpeg`（見つからなければ /opt/homebrew/bin/ffmpeg と /usr/local/bin/ffmpeg も見る）
+  2. `/usr/bin/python3 -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"` で出る場所の ffmpeg
+- Pillow: `/usr/bin/python3 -c "import PIL; print(PIL.__version__)"` が動くか。動かなければ `python3` と /opt/homebrew/bin/python3 でも見る。どれか1つで動けば「ある」とし、どの python3 で動いたかも添える
+- /usr/bin/python3 を動かしたときに、「コマンドライン・デベロッパツール」を入れるか聞く画面が出たとき（xcode-select や developer tools のエラーが出たときも）は、「画面に出た『インストール』を押して、終わるまで待ってください（数分から10分ほど）。終わったら『入れ終わった』と送ってください」と伝えて止まる。「入れ終わった」と言われたら、2 をやり直す
 - 結果は「ffmpeg: ある／ない」「Pillow: ある／ない」の2行で伝える。両方あれば 3 は飛ばす
 
 ## 3. 足りない道具を入れる
 
-入れる前に、何を・どうやって入れるか・どのくらいかかりそうかを短く説明し、OK をもらってから入れる。
+Homebrew・ターミナル・Mac のパスワードは使わない。Mac に最初から入っている python3 に、足りないものだけを入れる。
 
-- Homebrew があるとき
-  - ffmpeg: `brew install ffmpeg`（数分かかることがある）
-  - Pillow: `/usr/bin/python3 -m pip install --user pillow`。うまくいかなければ `brew install pillow`
-  - 入れたら、2 と同じ方法でもう一度確かめて、結果を2行で伝える
-- Homebrew が無いとき: Homebrew は Mac のパスワードを打つ必要があるので、Claude からは入れない。置き場所・置いた3つのファイル・道具の結果（2行）を伝え、次の手順を伝えて、ここで終わる（4 は伝えない。次に送る言葉が2つにならないようにするため）。専門の言葉（ターミナル・Homebrew など）には、ひとことの説明を付ける
-  「ターミナルで Homebrew を入れてください。終わるまで、数分から長いと20分ほどかかることがあります。
-  1. Finder の『アプリケーション』→『ユーティリティ』→『ターミナル』を開く
-  2. https://brew.sh を開き、『Install Homebrew』の下の1行をコピーして、ターミナルに貼って Enter
-  3. Mac のパスワードを聞かれたら打って Enter（打っても画面には出ません）
-  4. 英語で『Press RETURN/ENTER to continue』と出たら、もう一度 Enter。文字がしばらく流れるので、終わるまで待つ。別の画面で何かを入れるか聞かれたら『インストール』を押す
-  5. 最後に『Next steps』という英語の見出しが出たら、その下の少し右に下げて並んでいる行（2〜3行）を全部まとめてコピーして、ターミナルに貼って Enter
-  6. Claude アプリを一度終了して開き直し、リール作りのフォルダで『ffmpeg と Pillow があるか確かめて。足りなければ入れ方を説明して』と送ってください」
+1. 入れる前に、何を入れるか（ffmpeg は imageio-ffmpeg という部品に入っている）・どうやって入れるか・1〜3分ほどかかることを短く説明し、OK をもらう
+2. 足りないものだけを入れる: `/usr/bin/python3 -m pip install --user pillow imageio-ffmpeg`（ffmpeg だけなら imageio-ffmpeg だけ、Pillow だけなら pillow だけ）
+3. 入れたら 2 と同じ方法でもう一度確かめて、結果を2行で伝える。ffmpeg は、使う場所（2 の 2 で出る場所）も添える
+4. うまくいかなければ、出たエラーの大事な1行を伝えて止まる。Homebrew を入れる案内はしない
 
 ## 4. 最後に伝える
 
-（Homebrew が無いときは 3 で終わり、ここは伝えない）置き場所と、置いた3つのファイルの名前と、道具の結果（2行）を短く伝える。続けて、次のように聞く:「撮った動画（素材）がもうあれば、そのリールの物件の名前を教えてください。素材を入れるフォルダを作って開きます。まだ無ければ『まだ』と送ってください」
+置き場所と、置いた3つのファイルの名前と、道具の結果（2行）を短く伝える。続けて、次のように聞く:「撮った動画（素材）がもうあれば、そのリールの物件の名前を教えてください。素材を入れるフォルダを作って開きます。まだ無ければ『まだ』と送ってください」
 
 ## 5. 素材を入れるフォルダを作る
 
