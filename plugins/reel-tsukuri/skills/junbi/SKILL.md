@@ -10,25 +10,28 @@ description: Instagram リールを作る作業フォルダ「リール作り」
 ## 守ること
 
 - 書いてあるコマンドは、聞かずにそのまま実行する
-- 書いていないことはしない。別のやり方に切り替える・手順を飛ばす・書いていないソフトや部品を入れる・sudo を使う・設定ファイル（~/.zshrc など）を変える・リール作りの外にファイルやフォルダを作る、消す、動かす は、どれもしない
+- 書いていないことはしない。別のやり方に切り替える・手順を飛ばす・書いていないソフトや部品を入れる・sudo を使う・設定ファイル（~/.zshrc など）を変える・リール作りの外にファイルやフォルダを作る、消す、動かす は、どれもしない（このあとに書いてあるコマンドがすることは除く。たとえば pip は道具をホームの中の Library に入れる）
 - 止まるのは次の3つのときだけ
   1. 物件の名前を聞くとき（3）
   2. 「コマンドライン・デベロッパツール」を入れる画面が出たとき（2）
-  3. コマンドがエラーで終わったとき。別のやり方は試さない。エラーの大事な1行と、何をしようとしていたかを1〜2行で伝えて止まる
+  3. コマンドがエラーで終わったとき、またはアプリに止められた（許可されなかった）とき。別のやり方は試さない。エラーの大事な1行と、何をしようとしていたかを1〜2行で伝えて止まる
 - 返事は短くする。最後に、使う人が次に送る言葉か押すボタンを1つだけ書く
 
 ## 1. 決まりのファイルを最新にする
 
-次をそのまま実行する。今開いているフォルダの名前が「リール作り」ならそこに、そうでなければムービーの中の「リール作り」に置く（無ければ作る）。同じ名前の3つのファイルは上書きし、ほかのファイル（素材のフォルダ・台本・完成した動画・テロップの見本）には触らない。
+次をそのまま実行する（3つとも取れたときだけ入れ替わる）。1行目の「作業フォルダ」は、この会話を始めたときに選ばれていたフォルダ（Claude の作業フォルダ）のフルパスに置き換える。その名前が「リール作り」ならそこに、そうでなければムービーの中の「リール作り」に置く（無ければ作る）。最後に出る「置き場所」を覚えておき、このあとの手順ではそれを使う。同じ名前の3つのファイルは上書きし、ほかのファイル（素材のフォルダ・台本・完成した動画・テロップの見本）には触らない。
 
 ```bash
-if [ "$(basename "$PWD")" = "リール作り" ]; then D="$PWD"; else D="$HOME/Movies/リール作り"; fi
-mkdir -p "$D"
+W="（作業フォルダのフルパス）"
+if [ "$(basename "$W")" = "リール作り" ]; then D="$W"; else D="$HOME/Movies/リール作り"; fi
 B="https://raw.githubusercontent.com/y724u/reel-tsukuri/main/plugins/reel-tsukuri/skills/junbi/kit"
-curl -fsSL "$B/CLAUDE.md" -o "$D/CLAUDE.md"
-curl -fsSL "$B/Claude%E3%81%B8%E3%81%AE%E6%8C%87%E7%A4%BA%E6%9B%B8_1_%E5%8F%B0%E6%9C%AC%E3%81%A5%E3%81%8F%E3%82%8A.txt" -o "$D/Claudeへの指示書_1_台本づくり.txt"
-curl -fsSL "$B/Claude%E3%81%B8%E3%81%AE%E6%8C%87%E7%A4%BA%E6%9B%B8_2_%E5%8B%95%E7%94%BB%E3%81%A5%E3%81%8F%E3%82%8A.txt" -o "$D/Claudeへの指示書_2_動画づくり.txt"
-echo "置き場所: $D"; ls "$D"
+mkdir -p "$D/.dl" && \
+curl -fsSL "$B/CLAUDE.md" -o "$D/.dl/1" && \
+curl -fsSL "$B/Claude%E3%81%B8%E3%81%AE%E6%8C%87%E7%A4%BA%E6%9B%B8_1_%E5%8F%B0%E6%9C%AC%E3%81%A5%E3%81%8F%E3%82%8A.txt" -o "$D/.dl/2" && \
+curl -fsSL "$B/Claude%E3%81%B8%E3%81%AE%E6%8C%87%E7%A4%BA%E6%9B%B8_2_%E5%8B%95%E7%94%BB%E3%81%A5%E3%81%8F%E3%82%8A.txt" -o "$D/.dl/3" && \
+mv "$D/.dl/1" "$D/CLAUDE.md" && \
+mv "$D/.dl/2" "$D/Claudeへの指示書_1_台本づくり.txt" && \
+mv "$D/.dl/3" "$D/Claudeへの指示書_2_動画づくり.txt" && echo "置き場所: $D" && ls "$D"
 ```
 
 ## 2. 道具を入れて確かめる
@@ -36,7 +39,7 @@ echo "置き場所: $D"; ls "$D"
 「動画づくりの道具（Pillow と ffmpeg）を確かめて、無ければ入れます。初めてのときは1〜3分ほどかかります」と1行だけ伝えて、次をそのまま実行する。すでに入っていれば数秒で終わる。Homebrew・ターミナル・Mac のパスワードは使わない。
 
 ```bash
-/usr/bin/python3 -m pip install --user --disable-pip-version-check -q pillow imageio-ffmpeg
+/usr/bin/python3 -m pip install --user --disable-pip-version-check -q pillow imageio-ffmpeg && \
 /usr/bin/python3 -c "import PIL, imageio_ffmpeg, subprocess; f = imageio_ffmpeg.get_ffmpeg_exe(); subprocess.run([f, '-version'], check=True, capture_output=True); print('Pillow: ある（' + PIL.__version__ + '）'); print('ffmpeg: ある（' + f + '）')"
 ```
 
@@ -49,10 +52,10 @@ echo "置き場所: $D"; ls "$D"
 
 ## 4. 素材を入れるフォルダを作る
 
-- 物件の名前をもらったら、次をそのまま実行する（名前は、もらった物件の名前に置き換える）
+- 物件の名前をもらったら、次をそのまま実行する（名前は、もらった物件の名前に置き換える。名前の中の / \ " ' ` $ は _ に置き換えてから入れる）
 
 ```bash
-if [ "$(basename "$PWD")" = "リール作り" ]; then D="$PWD"; else D="$HOME/Movies/リール作り"; fi
+D="（1 で出た置き場所のフルパス）"
 F="$D/$(date +%Y-%m)_名前"; mkdir -p "$F"; open "$F"; echo "$F"
 ```
 

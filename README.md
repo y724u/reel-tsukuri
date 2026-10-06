@@ -5,7 +5,7 @@ Claude アプリの「コード」で、Instagram リールの台本づくりと
 1. Claude アプリの「コード」で「フォルダを選択」→「ムービー」を選び、モードを「自動」にする
 2. 次の1文を送る。Claude が「リール作り」フォルダを作って決まりのファイルを置き、動画づくりの道具（Pillow と ffmpeg）を入れます（Homebrew・ターミナル・Mac のパスワードは使いません）
 
-   https://github.com/y724u/reel-tsukuri にある plugins/reel-tsukuri/skills/junbi/SKILL.md を curl で raw.githubusercontent.com から読んで（WebFetch は使わない）、書いてある手順どおりに、聞かずに最後まで進めて
+   https://github.com/y724u/reel-tsukuri にある plugins/reel-tsukuri/skills/junbi/SKILL.md を curl で raw.githubusercontent.com から取り、ファイルに保存せずにそのまま表示して読んで（WebFetch は使わない。読むためにほかのフォルダへ移動しない）、書いてある手順どおりに、聞かずに最後まで進めて
 
 3. 物件の名前を聞かれたら答える。素材を入れるフォルダが開くので、撮った動画を入れて「動画を作って。（フォルダの名前）」と送る
 4. 次からは、「新規セッション」でリール作りのフォルダを選び、「台本を作って」か「動画を作って。（フォルダの名前）」と送る。決まりのファイルは、そのたびに GitHub の最新になります
