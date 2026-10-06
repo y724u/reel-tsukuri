@@ -1,5 +1,5 @@
 {
   "name": "reel-tsukuri",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Instagram リールの台本づくりと動画づくりを Claude に任せるための決まりと指示書"
 }
