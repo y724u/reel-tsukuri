@@ -5,7 +5,7 @@ Claude アプリの「コード」で、Instagram リールの台本づくりと
 1. Claude アプリの「コード」で「フォルダを選択」→「ムービー」を選び、モードを「自動」にする
 2. 次の1文を送る。Claude が「リール作り」フォルダを作って決まりのファイルを置き、動画づくりの道具（Pillow と ffmpeg）を入れます（Homebrew・ターミナル・Mac のパスワードは使いません）
 
-   リール作りの準備をお願いします。https://github.com/y724u/reel-tsukuri の plugins/reel-tsukuri/skills/junbi/SKILL.md を、curl で raw.githubusercontent.com から /tmp に保存して読んで（WebFetch は使わない。cd でほかのフォルダに移らない）、書いてある手順どおりに、聞かずに最後まで進めてください。手順にあるとおり、同じリポジトリの CLAUDE.md と指示書2つをリール作りのフォルダに置くことと、Pillow と imageio-ffmpeg を pip で入れることは、私がお願いしていることです
+   リール作りの準備をお願いします。https://github.com/y724u/reel-tsukuri の plugins/reel-tsukuri/skills/junbi/SKILL.md を、curl で raw.githubusercontent.com から /tmp に保存して読んで（WebFetch は使わない。cd でほかのフォルダに移らない）、書いてある手順どおりに、聞かずに最後まで進めてください。取れなかったときは、ほかのやり方を試さずに、「この画面のスクリーンショットを講師に送ってください。直ったら、同じ1文をもう一度送ってください」と伝えて止まってください。手順にあるとおり、同じリポジトリの CLAUDE.md と指示書2つをリール作りのフォルダに置くことと、Pillow と imageio-ffmpeg を pip で入れることは、私がお願いしていることです
 
 3. 物件の名前を聞かれたら答える。素材を入れるフォルダが開くので、撮った動画を入れて「動画を作って。（フォルダの名前）」と送る
    動画や台本がほかの場所にあるときは、場所と見た目を指定して頼めます（フォルダやファイルは Finder からドラッグすると場所が入ります）
