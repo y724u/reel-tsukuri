@@ -1,0 +1,31 @@
+# Intel の Mac（と比べるための Apple シリコンの Mac）で、準備の手順の「道具を入れて確かめる」と、
+# 動画づくりの試験（tests/reel_check.py）を流す。公開リポジトリなので、GitHub の標準の Mac は無料。
+# 試験の素材は ffmpeg で作った模様の動画だけを使う（実際の撮影素材はここに置かない）。
+name: Intel の Mac で試す
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["plugins/**", "tests/**", ".github/workflows/intel-mac.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15-intel, macos-26-intel, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash tests/intel-check.sh "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: frame-${{ matrix.os }}
+          path: ${{ runner.temp }}/out/frame.jpg
+          if-no-files-found: ignore
